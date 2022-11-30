@@ -15,4 +15,4 @@ const config = {
   mongoUrl: mainConfig.MONGO_URL,
 };
 
-module.exports = config;
+export default config;
