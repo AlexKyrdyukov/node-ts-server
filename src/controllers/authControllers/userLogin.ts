@@ -1,5 +1,5 @@
 import type { Handler } from 'express';
-import reposytorys from '../../db/index';
+import repositorys from '../../db/index';
 
 const loginUser: Handler = (req, res) => {
   try {

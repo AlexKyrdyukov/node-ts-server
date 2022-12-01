@@ -1,8 +1,8 @@
 import AppDataSource from './connect';
-import User from './models/User';
+import User from './entitiUser/User';
 
-const reposytorys = {
+const repositorys = {
   userRepository: AppDataSource.getRepository(User),
 };
 
-export default reposytorys;
+export default repositorys;

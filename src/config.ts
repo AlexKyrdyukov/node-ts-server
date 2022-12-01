@@ -12,7 +12,6 @@ const mainConfig = {
 const config = {
   port: mainConfig.PORT,
   clientUrl: mainConfig.CLIENT_URL,
-  mongoUrl: mainConfig.MONGO_URL,
 };
 
 export default config;
