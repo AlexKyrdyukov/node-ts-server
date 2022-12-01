@@ -1,10 +1,15 @@
-import AppDataSource from './db/connect';
+import express from 'express';
+import cors from 'cors';
+import routes from './routes/index';
+import config from './config';
 
-AppDataSource.initialize()
-  .then(() => {
-    // eslint-disable-next-line no-console
-    console.log('initialize');
-  })
-  .catch((err) => {
-    console.error('error', err);
-  });
+const app = express();
+
+app.use(cors({
+  origin: config.clientUrl,
+}));
+
+app.use(express.json());
+app.use('/api', routes);
+
+export default app;
