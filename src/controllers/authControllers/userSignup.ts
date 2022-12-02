@@ -1,27 +1,35 @@
 import type { Handler } from 'express';
+import { validationResult } from 'express-validator';
+import CryptoJS from 'crypto-js';
 import repositorys from '../../db/index';
 import entities from '../../db/serverEntities';
-import { AES } from 'crypto-ts';
+import config from '../../config';
 
 const signupUser: Handler = async (req, res) => {
   try {
-    const dbEmail = await repositorys.userRepository.findOneBy({ email: req.body.email });
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ message: 'errors registation', errors });
+    }
+    const dbUser = await repositorys.userRepository.find({ select: {
+      email: req.body.email,
+    } });
     // eslint-disable-next-line no-console
-    console.log(dbEmail);
-    // eslint-disable-next-line no-console
-    console.log(AES.encrypt(req.body.password));
-    if (dbEmail) {
-      return res.sendStatus(400);
+    if (dbUser.length) {
+      return res.status(400).json({ message: 'user with this email already exists' });
     }
     const user = new entities.User();
     user.fullName = req.body.fullName;
     user.email = req.body.email;
-    user.password = req.body.password;
+    // user.password = CryptoJS.SHA256(config.salt + req.body.password).toString(CryptoJS.enc.Hex);
+    user.password = CryptoJS.SHA512(req.body.password + config.saltPassword).toString();
+    // eslint-disable-next-line no-console
+    console.log(user.password);
     user.dob = req.body.dob;
     await repositorys.userRepository.save(user);
-    res.sendStatus(200);
+    res.status(200).json({ message: 'user successfully registered' });
   } catch (error) {
-    res.sendStatus(404);
+    res.status(404).json({ message: error });
     console.error(error);
   }
 };

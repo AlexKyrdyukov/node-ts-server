@@ -12,6 +12,7 @@ const mainConfig = {
 const config = {
   port: mainConfig.PORT,
   clientUrl: mainConfig.CLIENT_URL,
+  saltPassword: mainConfig.SALT,
 };
 
 export default config;
