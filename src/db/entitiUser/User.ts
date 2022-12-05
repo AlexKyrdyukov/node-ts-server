@@ -1,8 +1,11 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 class User {
-  @PrimaryColumn({
+  @PrimaryGeneratedColumn()
+    id?: number;
+
+  @Column({
     name: 'password',
     type: String,
   })
@@ -11,7 +14,7 @@ class User {
   @Column({
     name: 'fullName',
     length: 30,
-    nullable: true,
+    nullable: false,
     type: String,
   })
   fullName?: string;
@@ -20,7 +23,7 @@ class User {
     name: 'email',
     length: 20,
     unique: true,
-    nullable: true,
+    nullable: false,
     type: String,
   })
     email?: string;

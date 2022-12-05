@@ -26,8 +26,8 @@ const signupUser: Handler = async (req, res) => {
     // eslint-disable-next-line no-console
     console.log(user.password);
     user.dob = req.body.dob;
-    await repositorys.userRepository.save(user);
-    res.status(200).json({ message: 'user successfully registered' });
+    const retUser = await repositorys.userRepository.save(user);
+    res.status(200).json({ message: 'user successfully registered', retUser });
   } catch (error) {
     res.status(404).json({ message: error });
     console.error(error);
