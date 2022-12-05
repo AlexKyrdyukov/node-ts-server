@@ -1,4 +1,4 @@
-import User from './entitiUser/User';
+import User from './entities/User';
 
 const entities = {
   User,

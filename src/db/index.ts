@@ -1,5 +1,5 @@
-import AppDataSource from './connect';
-import User from './entitiUser/User';
+import AppDataSource from './dataSource';
+import User from './entities/User';
 
 const repositorys = {
   userRepository: AppDataSource.getRepository(User),

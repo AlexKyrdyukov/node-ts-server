@@ -1,5 +1,5 @@
 import loginUser from './userLogin';
-import signupUser from './userSignup';
+import signupUser from './userSignUp';
 
 const authControllers = {
   loginUser,

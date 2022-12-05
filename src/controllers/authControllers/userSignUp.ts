@@ -1,6 +1,7 @@
 import type { Handler } from 'express';
 import { validationResult } from 'express-validator';
 import CryptoJS from 'crypto-js';
+import jwt from 'jsonwebtoken';
 import repositorys from '../../db/index';
 import entities from '../../db/serverEntities';
 import config from '../../config';
@@ -21,13 +22,15 @@ const signupUser: Handler = async (req, res) => {
     const user = new entities.User();
     user.fullName = req.body.fullName;
     user.email = req.body.email;
-    // user.password = CryptoJS.SHA256(config.salt + req.body.password).toString(CryptoJS.enc.Hex);
     user.password = CryptoJS.SHA512(req.body.password + config.saltPassword).toString();
-    // eslint-disable-next-line no-console
-    console.log(user.password);
     user.dob = req.body.dob;
     const retUser = await repositorys.userRepository.save(user);
-    res.status(200).json({ message: 'user successfully registered', retUser });
+    // eslint-disable-next-line no-console
+    console.log(retUser.id);
+    const token = jwt.sign({ foo: retUser.id }, config.privateKey, { algorithm: 'HS512' });
+    res.status(200).json({ message: 'user successfully registered', token });
+    // eslint-disable-next-line no-console
+    console.log(res);
   } catch (error) {
     res.status(404).json({ message: error });
     console.error(error);
